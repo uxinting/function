@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <com.calc.cview.CurlView 
+        android:id="@+id/show"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/control"/>
+    
+    <com.calc.cview.DirectionView 
+        android:id="@+id/direction"
+		android:layout_width="30dp"
+		android:layout_height="30dp"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginTop="10dp"
+		android:layout_marginRight="10dp"
+		android:src="@drawable/direction"/>
+    
+    <TableLayout 
+        android:id="@+id/control"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:stretchColumns="0">
+        
+        <TableRow 
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            
+            <EditText 
+		        android:id="@+id/expression"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:inputType="text"/>
+	        
+	        <Button 
+	            android:id="@+id/ok"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"
+	            android:onClick="onOKClick"
+	            android:text="@string/ok"/>
+	        
+        </TableRow>
+        
+    </TableLayout>
+
+</RelativeLayout>
