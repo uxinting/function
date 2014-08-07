@@ -9,9 +9,9 @@ public class Minus extends Operator {
 
 	@Override
 	public double value(Stack<Item> args) {
-		Item minus2 = args.pop();
-		Item minus1 = args.pop();
-		return minus1.value( args ) - minus2.value( args );
+		double minus2 = args.pop().value(args);
+		double minus1 = args.pop().value(args);
+		return minus1 - minus2;
 	}
 
 	@Override

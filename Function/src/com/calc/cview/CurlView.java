@@ -3,7 +3,9 @@ package com.calc.cview;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.calc.function.CurlMonitor;
 import com.calc.function.R;
+import com.calc.function.CurlMonitor.Switch;
 import com.calc.inter.INotifyer;
 import com.calc.inter.IResponser;
 
@@ -24,6 +26,8 @@ public class CurlView extends View implements INotifyer {
 	
 	private Paint paint = null;
 	private Resources r = null;
+	
+	private CurlMonitor monitor = null;
 	
 	private double cx = 0.0;
 	private double cy = 0.0;
@@ -49,6 +53,7 @@ public class CurlView extends View implements INotifyer {
 		bounds = new Rect();
 		
 		r = getResources();
+		monitor = CurlMonitor.instance();
 
 		paint = new Paint();
 	}
@@ -164,6 +169,7 @@ public class CurlView extends View implements INotifyer {
 	}
 
 	public void setCXY( float cx, float cy ) {
+		if ( monitor.getMoveable() == Switch.OFF ) return;
 		this.cx = cx;
 		this.cy = cy;
 		invalidate();
@@ -187,7 +193,9 @@ public class CurlView extends View implements INotifyer {
 		float xmax = getWidth() - getCX();
 		
 		for ( float i = xmin; i < xmax; i++ ) {
-			dots.add(new Pair<Float, Float>(getCX()+i, (float) (double) (getCY()-expr.result(i/degree)*degree)));
+			float y = (float) (double) (getCY()-expr.result(i/degree)*degree);
+			if ( y < 0 || y > getHeight() ) continue;
+			dots.add(new Pair<Float, Float>(getCX()+i, y));
 		}
 	}
 	

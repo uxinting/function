@@ -1,10 +1,14 @@
 package com.calc.cview;
 
+import com.calc.function.CurlMonitor;
+import com.calc.function.CurlMonitor.Switch;
 import com.calc.inter.INotifyer;
 import com.calc.inter.IResponser;
 
 import android.content.Context;
+import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 
 public class DirectionView extends ImageView implements IResponser {
@@ -13,6 +17,11 @@ public class DirectionView extends ImageView implements IResponser {
 	private float cy = 0;
 	
 	private float angle = 45;
+	
+	private final int	  alphaOn = 255;
+	private final int	  alphaOff = (int) (255*0.4);
+	
+	private CurlMonitor monitor = null;
 	
 	public DirectionView(Context context) {
 		super(context);
@@ -24,8 +33,32 @@ public class DirectionView extends ImageView implements IResponser {
 
 	public DirectionView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		
+		monitor = CurlMonitor.instance();
+		if ( monitor.getMoveable() == Switch.OFF ) {
+			setImageAlpha( alphaOff );
+		} else {
+			setImageAlpha( alphaOn );
+		}
 	}
 	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		
+		switch ( event.getAction() ) {
+		case MotionEvent.ACTION_UP:
+			if ( monitor.getMoveable() == Switch.ON ) {
+				monitor.setMoveable( Switch.OFF );
+				setImageAlpha( alphaOff );
+			} else {
+				monitor.setMoveable( Switch.ON );
+				setImageAlpha( alphaOn );
+			}
+			break;
+		}
+		return true;
+	}
+
 	@Override
 	public void action(INotifyer notifyer) {
 		CurlView cv = (CurlView) notifyer;

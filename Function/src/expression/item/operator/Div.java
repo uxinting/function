@@ -9,9 +9,10 @@ public class Div extends Operator {
 
 	@Override
 	public double value(Stack<Item> args) {
-		Item div2 = args.pop();
-		Item div1 = args.pop();
-		return div1.value( args ) / div2.value( args );
+		double div2 = args.pop().value(args);
+		double div1 = args.pop().value(args);
+		if ( div2 == 0 ) return Double.NaN;
+		return div1 / div2;
 	}
 
 	@Override
