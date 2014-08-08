@@ -9,6 +9,7 @@ abstract public class Operator implements Item {
 		public final static int LMINUS = 0;
 		public final static int LMULTI = 1;
 		public final static int LDIV = 1;
+		public final static int LSIN = 2;
 		public final static int LLPARENT = -1;
 		public final static int LRPARENT = -1;
 	};

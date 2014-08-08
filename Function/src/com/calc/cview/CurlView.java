@@ -70,7 +70,7 @@ public class CurlView extends View implements INotifyer {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		
-		switch (event.getAction()) {
+		switch (event.getAction() & MotionEvent.ACTION_MASK) {
 		case MotionEvent.ACTION_DOWN:
 			oldx = event.getX();
 			oldy = event.getY();
@@ -79,6 +79,10 @@ public class CurlView extends View implements INotifyer {
 			setCXY((float)(event.getX()-oldx+cx), (float)(event.getY()-oldy+cy));
 			oldx = event.getX();
 			oldy = event.getY();
+			break;
+		case MotionEvent.ACTION_POINTER_DOWN:
+			break;
+		case MotionEvent.ACTION_POINTER_UP:
 			break;
 		}
 		return true;
@@ -103,13 +107,14 @@ public class CurlView extends View implements INotifyer {
 			}
 		} else {
 			paint.setColor(r.getColor(R.color.text));
-			paint.setTextSize(r.getDimension(R.dimen.text));
 			paint.setFlags(Paint.ANTI_ALIAS_FLAG);
 			
 			String text = expr.result().toString();
+			paint.setTextSize(r.getDimension(R.dimen.text));
 			paint.getTextBounds(text, 0, text.length(), bounds);
+			paint.setTextScaleX((getWidth()-r.getDimension(R.dimen.margin)*2)/bounds.width());
 			
-			canvas.drawText(text, (this.getWidth()-bounds.width())/2, (this.getHeight()-bounds.height())/2, paint);
+			canvas.drawText(text, r.getDimension(R.dimen.margin), (this.getHeight()-bounds.height())/2, paint);
 		}
 		
 		if ( responsers.containsKey(INotifyer.Event.ONDRAW) )

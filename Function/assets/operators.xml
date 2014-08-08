@@ -4,6 +4,7 @@
     <operator name="-" >expression.item.operator.Minus</operator>
     <operator name="*" >expression.item.operator.Multi</operator>
     <operator name="/" >expression.item.operator.Div</operator>
+    <operator name="sin" >expression.item.operator.Sin</operator>
     <operator name="(" >expression.item.operator.LParent</operator>
     <operator name=")" >expression.item.operator.RParent</operator>
 </operators>

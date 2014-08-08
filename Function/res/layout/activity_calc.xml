@@ -13,14 +13,25 @@
     
     <com.calc.cview.DirectionView 
         android:id="@+id/direction"
-		android:layout_width="30dp"
-		android:layout_height="30dp"
+		android:layout_width="@dimen/icon"
+		android:layout_height="@dimen/icon"
 		android:layout_alignParentTop="true"
 		android:layout_alignParentRight="true"
-		android:layout_marginTop="10dp"
-		android:layout_marginRight="10dp"
+		android:layout_marginTop="@dimen/margin"
+		android:layout_marginRight="@dimen/margin"
 		android:clickable="true"
 		android:src="@drawable/direction"/>
+    
+    
+    <ImageView 
+        android:id="@+id/more"
+        android:layout_width="@dimen/icon"
+        android:layout_height="@dimen/icon"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_above="@+id/control"
+        android:src="@drawable/more"/>
     
     <TableLayout 
         android:id="@+id/control"

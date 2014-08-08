@@ -19,7 +19,7 @@ public class Expression {
 	private Log log = Log.instance();
 	
 	private boolean isNumber( char c ) {
-		return '0' <= c && c <= '9';
+		return '0' <= c && c <= '9' || c == '.';
 	}
 	
 	public Expression(String exp) {
