@@ -2,6 +2,7 @@ package com.calc.function;
 
 import com.calc.cview.CurlView;
 import com.calc.cview.DirectionView;
+import com.calc.cview.ExpressionView;
 import com.calc.inter.INotifyer;
 
 import expression.Expression;
@@ -25,6 +26,7 @@ public class CalcActivity extends Activity {
 	private String expr = null;
 	private CurlView show = null;
 	private DirectionView directer = null;
+	private ExpressionView expression = null;
 
 	public String getExpr() {
 		return expr;
@@ -47,16 +49,24 @@ public class CalcActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calc);
 		
+		show = (CurlView) findViewById( R.id.show );
+		directer = (DirectionView) findViewById(R.id.direction);
+		expression = (ExpressionView) findViewById(R.id.expression);
+		
+		//初始化操作符工厂
 		OperatorFactory.initialize(getAssets());
 		
-		setShow((CurlView) findViewById( R.id.show ));
-		directer = (DirectionView) findViewById(R.id.direction);
+		//设置自动提示
+		String[] tips = new String[OperatorFactory.getOperators().keySet().size()];
+		OperatorFactory.getOperators().keySet().toArray(tips);
+		expression.setTips(tips);
+		
+		//收听函数画图事件，收听者为小箭头
 		show.register(INotifyer.Event.ONDRAW, directer);
 	}
 	
 	public void onOKClick(View v) {
-		EditText editExpr = (EditText) findViewById(R.id.expression);
-		setExpr(editExpr.getText().toString());
+		setExpr(expression.getText().toString());
 		
 		InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		im.hideSoftInputFromWindow(v.getWindowToken(), 0);

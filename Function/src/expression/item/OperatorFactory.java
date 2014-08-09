@@ -51,21 +51,10 @@ public class OperatorFactory {
 			return new UnkownOperator( operat );
 		else
 			return operator;
-		/*if ( operat.equals("+") ) {
-			return new Add();
-		} else if ( operat.equals("-") ) {
-			return new Minus();
-		} else if ( operat.equals("*") ) {
-			return new Multi();
-		} else if ( operat.equals("/") ) {
-			return new Div();
-		} else if ( operat.equals("(") ) {
-			return new LParent();
-		} else if ( operat.equals(")") ) {
-			return new RParent();
-		} else {
-			return new UnkownOperator( operat );
-		}*/
 	}
 
+	public static HashMap<String, Operator> getOperators() {
+		return operators;
+	}
+	
 }
