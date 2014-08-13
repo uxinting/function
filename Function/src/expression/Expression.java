@@ -2,7 +2,10 @@ package expression;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import expression.item.Operand;
 import expression.item.OperandVariable;
@@ -13,8 +16,12 @@ public class Expression {
 	
 	private String exp = null;
 	private boolean bCompiled = false;
+	
 	private Queue<Item> inItems = new LinkedList<Item>();
 	private Queue<Item> postItems = new LinkedList<Item>();
+	private Set<String> operators = null;
+	
+	private String pattern = "";
 	
 	private Log log = Log.instance();
 	
@@ -24,6 +31,23 @@ public class Expression {
 	
 	public Expression(String exp) {
 		this.exp = exp;
+		
+		operators = OperatorFactory.getOperators().keySet();
+		
+		if ( operators != null ) {
+			pattern = "(\\d*\\.?\\d+)";
+			for ( String op : operators ) {
+				if ( op.equals("*") 
+					 || op.equals("+") 
+					 || op.equals("-")
+					 || op.equals("(")
+					 || op.equals(")")
+					 || op.equals("^"))
+					op = "\\"+op;
+				pattern += "|"+op;
+			}
+			log.debug(pattern);
+		}
 	}
 	
 	public boolean isFunc() {
@@ -32,8 +56,11 @@ public class Expression {
 	
 	public boolean compile() {
 		bCompiled = false;
+		postItems.clear();
 		
-		prepare();
+		if ( !prepare() ) {
+			log.warn("Prepare fail.");
+		}
 		
 		Stack<Item> operators = new Stack<Item>();
 		for ( Item item : inItems ) {
@@ -80,43 +107,24 @@ public class Expression {
 		log.debug( "Prepare.." );
 		inItems.clear();
 		
-		int cur = 0;
-		while ( cur < exp.length() ) {
-			
-			if ( exp.charAt( cur ) == 'x' ) {
-				inItems.add( new OperandVariable() );
-				cur++; continue;
+		if ( Pattern.matches("["+pattern+"]+", exp) ) {
+			Pattern p = Pattern.compile(pattern);
+			Matcher matcher = p.matcher(exp);
+			while ( matcher.find() ) {
+				String e = matcher.group();
+				try {
+					inItems.add(new Operand(Double.valueOf(e)));
+					log.debug("Operand : " + e);
+				} catch (NumberFormatException e1) {
+					inItems.add(OperatorFactory.getOperat(e));
+					log.debug("Operator : " + e);
+				}
 			}
-			
-			if ( exp.charAt( cur ) == '(' ) {
-				inItems.add( OperatorFactory.getOperat( "(" ) );
-				cur++; continue;
-			}
-			
-			//Number
-			String item = "";
-			for ( ; cur < exp.length(); cur++ ) {
-				char c = exp.charAt(cur);
-				if ( !isNumber( c ) ) break;
-				item += c;
-			}
-			log.debug( "Get " + item );
-			if ( !item.isEmpty() )
-				inItems.add( new Operand( item ) );
-			
-			//Operator
-			item = "";
-			for ( ; cur < exp.length(); cur++ ) {
-				char c = exp.charAt( cur );
-				if ( c > '0' && c < '9' ) break;
-				if ( c == '(' || c == 'x' ) { break; }
-				item += c;
-				if ( c == ')' ) { cur++; break; }
-			}
-			if ( !item.isEmpty() )
-				inItems.add( OperatorFactory.getOperat( item ) );
+			return true;
+		} else {
+			log.warn("Illegal expression.");
+			return false;
 		}
-		return true;
 	}
 	
 	public Double result() {

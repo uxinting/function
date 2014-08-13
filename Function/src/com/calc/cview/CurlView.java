@@ -112,7 +112,6 @@ public class CurlView extends View implements INotifyer {
 			String text = expr.result().toString();
 			paint.setTextSize(r.getDimension(R.dimen.text));
 			paint.getTextBounds(text, 0, text.length(), bounds);
-			paint.setTextScaleX((getWidth()-r.getDimension(R.dimen.margin)*2)/bounds.width());
 			
 			canvas.drawText(text, r.getDimension(R.dimen.margin), (this.getHeight()-bounds.height())/2, paint);
 		}

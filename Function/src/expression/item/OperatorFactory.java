@@ -1,6 +1,7 @@
 package expression.item;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -24,19 +25,26 @@ import expression.item.operator.UnkownOperator;
 public class OperatorFactory {
 	
 	static private Log log = Log.instance();
-	static private String operatorsName = "operators.xml";
 	static private HashMap<String, Operator> operators = null;
 	
-	static public void initialize(AssetManager am) {
+	static public void initialize(InputStream xml) {
 		if (operators!=null) return;
 		operators = new HashMap<String, Operator>();
 		
 		try {
-			Document doc = new SAXReader().read(am.open(operatorsName));
+			Document doc = new SAXReader().read(xml);
 			for (Iterator<Element> i = doc.getRootElement().elementIterator(); i.hasNext();) {
 				Element e = i.next();
+				log.debug(e.getStringValue());
 				
-				operators.put(e.attributeValue("name"), (Operator) Class.forName(e.getStringValue()).newInstance());
+				log.debug(e.attributeValue("name"));
+				log.debug(e.attributeValue("description"));
+				
+				Operator op = (Operator) Class.forName(e.getStringValue()).newInstance();
+				op.setName(e.attributeValue("name"));
+				op.setDescription(e.attributeValue("description"));
+				
+				operators.put(op.getName(), op);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,6 +54,9 @@ public class OperatorFactory {
 	static public Operator getOperat( String operat ) {
 		
 		log.debug( "Operator : " + operat );
+		
+		operat = operat.trim();
+		
 		Operator operator = operators.get(operat);
 		if (operator == null)
 			return new UnkownOperator( operat );

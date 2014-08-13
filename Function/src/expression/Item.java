@@ -9,4 +9,6 @@ public interface Item {
 	int level();
 	TYPE type();
 	double value( Stack<Item> args );
+	
+	String toString();
 }

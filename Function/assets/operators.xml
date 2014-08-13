@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <operators>
-    <operator name="+" >expression.item.operator.Add</operator>
-    <operator name="-" >expression.item.operator.Minus</operator>
-    <operator name="*" >expression.item.operator.Multi</operator>
-    <operator name="/" >expression.item.operator.Div</operator>
-    <operator name="sin" >expression.item.operator.Sin</operator>
-    <operator name="(" >expression.item.operator.LParent</operator>
-    <operator name=")" >expression.item.operator.RParent</operator>
+    <operator name="+" description="加法">expression.item.operator.Add</operator>
+    <operator name="-" description="减法">expression.item.operator.Minus</operator>
+    
+    <operator name="*" description="乘法">expression.item.operator.Multi</operator>
+    <operator name="•" description="乘法">expression.item.operator.Multi</operator>
+    <operator name="×" description="乘法">expression.item.operator.Multi</operator>
+    <operator name="/" description="除法">expression.item.operator.Div</operator>
+    <operator name="÷" description="除法">expression.item.operator.Div</operator>
+    
+    <operator name="sin" description="正弦">expression.item.operator.Sin</operator>
+    <operator name="cos" description="余弦">expression.item.operator.Cos</operator>
+    <operator name="tan" description="正切">expression.item.operator.Tan</operator>
+    <operator name="cot" description="余切">expression.item.operator.Cot</operator>
+    <operator name="arcsin" description="反正弦">expression.item.operator.ArcSin</operator>
+    <operator name="arccos" description="反余弦">expression.item.operator.ArcCos</operator>
+    <operator name="arctan" description="反正切">expression.item.operator.ArcTan</operator>
+    <operator name="arccot" description="反余切">expression.item.operator.ArcCot</operator>
+    
+    <operator name="^" description="幂">expression.item.operator.Pow</operator>
+    <operator name="√" description="开根号">expression.item.operator.Sqrt</operator>
+    <operator name="ln" description="自然对数">expression.item.operator.Ln</operator>
+    <operator name="log" description="以10为底对数">expression.item.operator.Log</operator>
+    <operator name="exp" description="自然数n次幂">expression.item.operator.Exp</operator>
+    
+    <operator name="~" description="负号">expression.item.operator.Nagetive</operator>
+    <operator name="°" description="度">expression.item.operator.Angle</operator>
+    <operator name="!" description="阶乘">expression.item.operator.Factorial</operator>
+    
+    <operator name="e" description="自然数">expression.item.operator.E</operator>
+    <operator name="π" description="圆周率">expression.item.operator.PI</operator>
+    <operator name="x" description="变量x">expression.item.operator.X</operator>
+    <operator name="y" description="变量y">expression.item.operator.Y</operator>
+    
+    <operator name="(" description="左括号">expression.item.operator.LParent</operator>
+    <operator name=")" description="右括号">expression.item.operator.RParent</operator>
 </operators>

@@ -1,5 +1,7 @@
 package com.calc.function;
 
+import java.io.IOException;
+
 import com.calc.cview.CurlView;
 import com.calc.cview.DirectionView;
 import com.calc.cview.ExpressionView;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class CalcActivity extends Activity {
 	
@@ -54,7 +57,11 @@ public class CalcActivity extends Activity {
 		expression = (ExpressionView) findViewById(R.id.expression);
 		
 		//初始化操作符工厂
-		OperatorFactory.initialize(getAssets());
+		try {
+			OperatorFactory.initialize(getAssets().open("operators.xml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		//设置自动提示
 		String[] tips = new String[OperatorFactory.getOperators().keySet().size()];
@@ -72,7 +79,10 @@ public class CalcActivity extends Activity {
 		im.hideSoftInputFromWindow(v.getWindowToken(), 0);
 		
 		Expression exp = new Expression(getExpr());
-		exp.compile();
-		show.setExpr(exp);
+		if ( exp.compile() )
+			show.setExpr(exp);
+		else {
+			Toast.makeText(getBaseContext(), R.string.fail_compile, Toast.LENGTH_SHORT);
+		}
 	}
 }
