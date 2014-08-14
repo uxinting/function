@@ -24,7 +24,7 @@ abstract public class Operator implements Item {
 		public final static int LACOT = 2;
 		
 		public final static int LPOW = 3;
-		public final static int LSQRT = 3;
+		public final static int LROOT = 3;
 		public final static int LLN = 3;
 		public final static int LLOG = 3;
 		public final static int LEXP = 3;
@@ -41,6 +41,7 @@ abstract public class Operator implements Item {
 	
 	protected String name = "";
 	protected String description = "";
+	protected int level = Integer.MIN_VALUE;
 	
 	public void setName(String name) {
 		this.name = name;
@@ -64,5 +65,18 @@ abstract public class Operator implements Item {
 	
 	public String getDescription() {
 		return this.description;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	@Override
+	public int level() {
+		return getLevel();
 	}
 }

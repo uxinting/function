@@ -19,7 +19,7 @@
     <operator name="arccot" description="反余切">expression.item.operator.ArcCot</operator>
     
     <operator name="^" description="幂">expression.item.operator.Pow</operator>
-    <operator name="√" description="开根号">expression.item.operator.Sqrt</operator>
+    <operator name="√" description="n次方根">expression.item.operator.Root</operator>
     <operator name="ln" description="自然对数">expression.item.operator.Ln</operator>
     <operator name="log" description="以10为底对数">expression.item.operator.Log</operator>
     <operator name="exp" description="自然数n次幂">expression.item.operator.Exp</operator>

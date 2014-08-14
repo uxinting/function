@@ -36,18 +36,23 @@ public class OperatorFactory {
 			for (Iterator<Element> i = doc.getRootElement().elementIterator(); i.hasNext();) {
 				Element e = i.next();
 				log.debug(e.getStringValue());
-				
 				log.debug(e.attributeValue("name"));
 				log.debug(e.attributeValue("description"));
 				
 				Operator op = (Operator) Class.forName(e.getStringValue()).newInstance();
 				op.setName(e.attributeValue("name"));
 				op.setDescription(e.attributeValue("description"));
+				try {
+					int level = Integer.valueOf(e.attributeValue("level"));
+					op.setLevel(level);
+				} catch (Exception e1) {
+					log.warn(e1.toString());
+				}
 				
 				operators.put(op.getName(), op);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn(e.toString());
 		}
 	}
 	

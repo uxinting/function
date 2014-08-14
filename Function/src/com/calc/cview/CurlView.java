@@ -31,8 +31,8 @@ public class CurlView extends View implements INotifyer {
 	
 	private double cx = 0.0;
 	private double cy = 0.0;
-	private float degree = 25;
-	private float degreel = 2;
+	private float unit = 25;
+	private float unitTag = 2;
 	
 	private float oldx = 0;
 	private float oldy = 0;
@@ -122,23 +122,23 @@ public class CurlView extends View implements INotifyer {
 			lines.add( f );
 		}
 		
-		for ( float x = (float) cx; x <= this.getWidth(); x += degree ) {
-			lines.add( x );lines.add( (float) (cy-degreel) );
+		for ( float x = (float) cx; x <= this.getWidth(); x += unit ) {
+			lines.add( x );lines.add( (float) (cy-unitTag) );
 			lines.add( x );lines.add( (float) cy );
 		}
 		
-		for ( float x = (float) cx; x >= 0; x -= degree ) {
-			lines.add( x );lines.add( (float) (cy+degreel) );
+		for ( float x = (float) cx; x >= 0; x -= unit ) {
+			lines.add( x );lines.add( (float) (cy+unitTag) );
 			lines.add( x );lines.add( (float) cy );
 		}
 		
-		for ( float y = (float) cy; y <= this.getHeight(); y += degree ) {
-			lines.add( (float) cx+degreel );lines.add( y );
+		for ( float y = (float) cy; y <= this.getHeight(); y += unit ) {
+			lines.add( (float) cx+unitTag );lines.add( y );
 			lines.add( (float) cx );lines.add( y );
 		}
 		
-		for ( float y = (float) cy; y >= 0; y -= degree ) {
-			lines.add( (float) cx+degreel );lines.add( y );
+		for ( float y = (float) cy; y >= 0; y -= unit ) {
+			lines.add( (float) cx+unitTag );lines.add( y );
 			lines.add( (float) cx );lines.add( y );
 		}
 		
@@ -187,7 +187,7 @@ public class CurlView extends View implements INotifyer {
 		float xmax = getWidth() - getCX();
 		
 		for ( float i = xmin; i < xmax; i++ ) {
-			float y = (float) (double) (getCY()-expr.result(i/degree)*degree);
+			float y = (float) (double) (getCY()-expr.result(i/unit)*unit);
 			if ( y < 0 || y > getHeight() ) continue;
 			dots.add(new Pair<Float, Float>(getCX()+i, y));
 		}

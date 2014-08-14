@@ -5,11 +5,11 @@ import java.util.Stack;
 import expression.Item;
 import expression.item.Operator;
 
-public class Sqrt extends Operator {
+public class Root extends Operator {
 
 	@Override
 	public int level() {
-		return Operator.LEVEL.LSQRT;
+		return Operator.LEVEL.LROOT;
 	}
 
 	@Override
