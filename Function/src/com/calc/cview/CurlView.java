@@ -63,11 +63,6 @@ public class CurlView extends View implements INotifyer {
 	}
 
 	@Override
-	public boolean dispatchTouchEvent(MotionEvent event) {
-		return super.dispatchTouchEvent(event);
-	}
-
-	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -99,7 +94,8 @@ public class CurlView extends View implements INotifyer {
 		paint.setColor(r.getColor(R.color.line));
 		paint.setStrokeWidth(r.getDimension(R.dimen.line));
 		
-		canvas.drawLines(getCXYLines(), paint);
+		canvas.drawLines(getXYAxes(), paint);
+		
 		updateDots();
 		for ( Pair<Float, Float> p : dots ) {
 			canvas.drawPoint(p.first, p.second, paint);
@@ -111,7 +107,46 @@ public class CurlView extends View implements INotifyer {
 			}
 	}
 	
-	private float[] getCXYLines() {		
+	@Override
+	public void onWindowFocusChanged(boolean hasWindowFocus) {
+		super.onWindowFocusChanged(hasWindowFocus);
+		
+		cx = (this.getWidth()+r.getDimension(R.dimen.cx))%this.getWidth();
+		cy = (this.getHeight()+r.getDimension(R.dimen.cy))%this.getHeight();
+	}
+	
+	public void setExpr(Expression expr) {
+		this.expr = expr;
+		invalidate();
+	}
+
+	public void setCXY( float cx, float cy ) {
+		if ( monitor.getMoveable() == Switch.OFF ) return;
+		this.cx = cx;
+		this.cy = cy;
+		invalidate();
+	}
+	
+	public float getCX() {
+		return (float) cx;
+	}
+	
+	public float getCY() {
+		return (float) cy;
+	}
+	
+	@Override
+	public void register(Event e, IResponser responser) {
+		if ( responsers == null ) {
+			responsers = new HashMap<INotifyer.Event, ArrayList<IResponser>>();
+		}
+		if ( !responsers.containsKey(e) ) {
+			responsers.put(e, new ArrayList<IResponser>());
+		}
+		responsers.get(e).add(responser);
+	}
+
+	private float[] getXYAxes() {		
 		ArrayList<Float> lines = new ArrayList<Float>();
 		
 		float[] cxy = {
@@ -149,34 +184,6 @@ public class CurlView extends View implements INotifyer {
 		return cor;
 	}
 
-	@Override
-	public void onWindowFocusChanged(boolean hasWindowFocus) {
-		super.onWindowFocusChanged(hasWindowFocus);
-		
-		cx = 10;
-		cy = this.getHeight() - 10;
-	}
-	
-	public void setExpr(Expression expr) {
-		this.expr = expr;
-		invalidate();
-	}
-
-	public void setCXY( float cx, float cy ) {
-		if ( monitor.getMoveable() == Switch.OFF ) return;
-		this.cx = cx;
-		this.cy = cy;
-		invalidate();
-	}
-	
-	public float getCX() {
-		return (float) cx;
-	}
-	
-	public float getCY() {
-		return (float) cy;
-	}
-	
 	private void updateDots() {
 		if ( dots == null ) {
 			dots = new ArrayList<Pair<Float,Float>>();
@@ -191,17 +198,8 @@ public class CurlView extends View implements INotifyer {
 			if ( y < 0 || y > getHeight() ) continue;
 			dots.add(new Pair<Float, Float>(getCX()+i, y));
 		}
-	}
-	
-	@Override
-	public void register(Event e, IResponser responser) {
-		if ( responsers == null ) {
-			responsers = new HashMap<INotifyer.Event, ArrayList<IResponser>>();
-		}
-		if ( !responsers.containsKey(e) ) {
-			responsers.put(e, new ArrayList<IResponser>());
-		}
-		responsers.get(e).add(responser);
+		
+		//TODO 如果是求根运算将考虑负数和情况
 	}
 
 }

@@ -5,4 +5,7 @@
     
     <dimen name="icon">30dp</dimen>
     <dimen name="margin">10dp</dimen>
+    
+    <dimen name="cx">10px</dimen>
+    <dimen name="cy">-10px</dimen>
 </resources>
