@@ -82,7 +82,7 @@ public class CalcActivity extends Activity {
 		if ( exp.compile() )
 			show.setExpr(exp);
 		else {
-			Toast.makeText(getBaseContext(), R.string.fail_compile, Toast.LENGTH_SHORT);
+			Toast.makeText(getBaseContext(), R.string.fail_compile, Toast.LENGTH_SHORT).show();
 		}
 	}
 }

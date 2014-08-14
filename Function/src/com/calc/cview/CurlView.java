@@ -31,7 +31,7 @@ public class CurlView extends View implements INotifyer {
 	
 	private double cx = 0.0;
 	private double cy = 0.0;
-	private float degree = 15;
+	private float degree = 25;
 	private float degreel = 2;
 	
 	private float oldx = 0;
@@ -96,24 +96,13 @@ public class CurlView extends View implements INotifyer {
 			return;
 		}
 		
-		if ( expr.isFunc() ) {
-			paint.setColor(r.getColor(R.color.line));
-			paint.setStrokeWidth(r.getDimension(R.dimen.line));
-			
-			canvas.drawLines(getCXYLines(), paint);
-			updateDots();
-			for ( Pair<Float, Float> p : dots ) {
-				canvas.drawPoint(p.first, p.second, paint);
-			}
-		} else {
-			paint.setColor(r.getColor(R.color.text));
-			paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-			
-			String text = expr.result().toString();
-			paint.setTextSize(r.getDimension(R.dimen.text));
-			paint.getTextBounds(text, 0, text.length(), bounds);
-			
-			canvas.drawText(text, r.getDimension(R.dimen.margin), (this.getHeight()-bounds.height())/2, paint);
+		paint.setColor(r.getColor(R.color.line));
+		paint.setStrokeWidth(r.getDimension(R.dimen.line));
+		
+		canvas.drawLines(getCXYLines(), paint);
+		updateDots();
+		for ( Pair<Float, Float> p : dots ) {
+			canvas.drawPoint(p.first, p.second, paint);
 		}
 		
 		if ( responsers.containsKey(INotifyer.Event.ONDRAW) )
@@ -170,6 +159,7 @@ public class CurlView extends View implements INotifyer {
 	
 	public void setExpr(Expression expr) {
 		this.expr = expr;
+		invalidate();
 	}
 
 	public void setCXY( float cx, float cy ) {
