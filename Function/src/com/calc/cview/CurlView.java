@@ -199,7 +199,14 @@ public class CurlView extends View implements INotifyer {
 			dots.add(new Pair<Float, Float>(getCX()+i, y));
 		}
 		
-		//TODO 如果是求根运算将考虑负数和情况
+		if ( expr.hasEvenRoot() ) {
+			expr.toggleRootResult();
+			for ( float i = xmin; i < xmax; i++ ) {
+				float y = (float) (double) (getCY()-expr.result(i/unit)*unit);
+				if ( y < 0 || y > getHeight() ) continue;
+				dots.add(new Pair<Float, Float>(getCX()+i, y));
+			}
+		}
 	}
 
 }

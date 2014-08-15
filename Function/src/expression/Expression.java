@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import expression.item.Operand;
 import expression.item.OperandVariable;
 import expression.item.OperatorFactory;
+import expression.item.operator.Pow;
+import expression.item.operator.Root;
 import log.Log;
 
 public class Expression {
@@ -25,10 +27,59 @@ public class Expression {
 	
 	private Log log = Log.instance();
 	
-	private boolean isNumber( char c ) {
-		return '0' <= c && c <= '9' || c == '.';
+	private boolean prepare() {
+		log.debug( "Prepare.." );
+		inItems.clear();
+		
+		if ( Pattern.matches("["+pattern+"]+", exp) ) {
+			Pattern p = Pattern.compile(pattern);
+			Matcher matcher = p.matcher(exp);
+			while ( matcher.find() ) {
+				String e = matcher.group();
+				try {
+					inItems.add(new Operand(Double.valueOf(e)));
+					log.debug("Operand : " + e);
+				} catch (NumberFormatException e1) {
+					inItems.add(OperatorFactory.getOperat(e));
+					log.debug("Operator : " + e);
+				}
+			}
+			return true;
+		} else {
+			log.warn("Illegal expression.");
+			return false;
+		}
 	}
 	
+	/**
+	 * 是否含偶数次根运算
+	 * @return
+	 */
+	public boolean hasEvenRoot() {
+		Pattern pat = Pattern.compile("(\\d*\\.?\\d+)√|\\^(\\d*\\.?\\d+)");
+		Matcher matcher = pat.matcher(exp);
+		while (matcher.find()) {
+			String s = matcher.group();
+			
+			if (s.charAt(s.length()-1) == '√' &&
+				Double.valueOf(s.substring(0, s.length()-1))%2 == 0)
+				return true;
+			
+			//倒数是2的倍数
+			if (s.charAt(0) == '^') {
+				double e = Double.valueOf(s.substring(1));
+				if (e < 1 && (1.0/e)%2 == 0)
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void toggleRootResult() {
+		((Root) OperatorFactory.getOperat("√")).toggleResult();
+		((Pow) OperatorFactory.getOperat("^")).toggleResult();
+	}
+
 	public Expression(String exp) {
 		this.exp = exp;
 		
@@ -48,10 +99,6 @@ public class Expression {
 			}
 			log.debug(pattern);
 		}
-	}
-	
-	public boolean isFunc() {
-		return exp.contains( "x" );
 	}
 	
 	public boolean compile() {
@@ -101,30 +148,6 @@ public class Expression {
 		
 		bCompiled = true;
 		return true;
-	}
-	
-	public boolean prepare() {
-		log.debug( "Prepare.." );
-		inItems.clear();
-		
-		if ( Pattern.matches("["+pattern+"]+", exp) ) {
-			Pattern p = Pattern.compile(pattern);
-			Matcher matcher = p.matcher(exp);
-			while ( matcher.find() ) {
-				String e = matcher.group();
-				try {
-					inItems.add(new Operand(Double.valueOf(e)));
-					log.debug("Operand : " + e);
-				} catch (NumberFormatException e1) {
-					inItems.add(OperatorFactory.getOperat(e));
-					log.debug("Operator : " + e);
-				}
-			}
-			return true;
-		} else {
-			log.warn("Illegal expression.");
-			return false;
-		}
 	}
 	
 	public Double result() {
