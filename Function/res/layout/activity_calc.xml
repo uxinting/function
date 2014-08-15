@@ -22,17 +22,6 @@
 		android:clickable="true"
 		android:src="@drawable/direction"/>
     
-    
-    <ImageView 
-        android:id="@+id/more"
-        android:layout_width="@dimen/icon"
-        android:layout_height="@dimen/icon"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
-        android:layout_above="@+id/control"
-        android:src="@drawable/more"/>
-    
     <TableLayout 
         android:id="@+id/control"
         android:layout_alignParentBottom="true"
@@ -54,7 +43,6 @@
 	            android:id="@+id/ok"
 	            android:layout_width="wrap_content"
 	            android:layout_height="fill_parent"
-	            android:onClick="onOKClick"
 	            android:text="@string/ok"/>
 	        
         </TableRow>

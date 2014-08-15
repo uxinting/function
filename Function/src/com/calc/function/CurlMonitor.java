@@ -31,9 +31,5 @@ public class CurlMonitor {
 		else
 			setMoveable( Switch.ON );
 	}
-	
-	public void toggleRootResult() {
-		
-	}
 
 }
