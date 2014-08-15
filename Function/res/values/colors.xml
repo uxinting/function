@@ -3,6 +3,7 @@
     <color name="line">#f000</color>
     <color name="dot">#f000</color>
     <color name="text">#f000</color>
+    <color name="text_more">#ffff</color>
     
     <color name="title">#fffa</color>
 </resources>

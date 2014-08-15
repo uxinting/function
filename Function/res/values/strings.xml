@@ -3,7 +3,9 @@
 
     <string name="app_name">Function</string>
     <string name="hello_world">Hello world!</string>
-    <string name="ok">Ok</string>
+    
+    <string name="ok">OK</string>
     <string name="fail_compile">Sorry, Compile Failed</string>
+    <string name="save_as">Save as</string>
 
 </resources>

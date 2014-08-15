@@ -17,6 +17,7 @@ import android.graphics.Canvas;
 import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +26,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Toast;
 
 public class CalcActivity extends Activity {
@@ -108,7 +111,28 @@ public class CalcActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(getBaseContext(), "Hello", Toast.LENGTH_LONG).show();
+			PopupMenu pop = new PopupMenu(getBaseContext(), more);
+			MenuInflater inflater = pop.getMenuInflater();
+			inflater.inflate(R.menu.more, pop.getMenu());
+			
+			pop.setOnMenuItemClickListener(new OnMoreItemClick());
+			pop.show();
+		}
+		
+	}
+	
+	/**
+	 * 监听弹出菜单的点击事件
+	 * @author xinting
+	 *
+	 */
+	private class OnMoreItemClick implements OnMenuItemClickListener {
+
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
+			Toast
+			.makeText(getBaseContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+			return false;
 		}
 		
 	}
