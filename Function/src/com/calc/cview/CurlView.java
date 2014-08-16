@@ -1,7 +1,12 @@
 package com.calc.cview;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Formatter.BigDecimalLayoutForm;
 
 import com.calc.function.CurlMonitor;
 import com.calc.function.R;
@@ -10,8 +15,11 @@ import com.calc.inter.INotifyer;
 import com.calc.inter.IResponser;
 
 import expression.Expression;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -38,10 +46,11 @@ public class CurlView extends View implements INotifyer {
 	private float oldy = 0;
 	
 	private Expression expr = null;
-	private Rect bounds = null;
 	
 	private ArrayList<Pair<Float, Float>> dots = null;
 	private HashMap<Event, ArrayList<IResponser>> responsers = null;
+	
+	public static enum SAVE_AS_PIC_TYPE { BMP, PNG };
 	
 	public CurlView(Context context) {
 		super(context);
@@ -49,8 +58,6 @@ public class CurlView extends View implements INotifyer {
 
 	public CurlView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
-		bounds = new Rect();
 		
 		r = getResources();
 		monitor = CurlMonitor.instance();
@@ -62,6 +69,7 @@ public class CurlView extends View implements INotifyer {
 		super(context, attrs, defStyle);
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		
@@ -108,13 +116,17 @@ public class CurlView extends View implements INotifyer {
 	}
 	
 	@Override
-	public void onWindowFocusChanged(boolean hasWindowFocus) {
-		super.onWindowFocusChanged(hasWindowFocus);
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		
-		cx = (this.getWidth()+r.getDimension(R.dimen.cx))%this.getWidth();
-		cy = (this.getHeight()+r.getDimension(R.dimen.cy))%this.getHeight();
+		int w = MeasureSpec.getSize(widthMeasureSpec);
+		int h = MeasureSpec.getSize(heightMeasureSpec);
+		
+		cx = (w+r.getDimension(R.dimen.cx))%w;
+		cy = (h+r.getDimension(R.dimen.cy))%h;
+		
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
-	
+
 	public void setExpr(Expression expr) {
 		this.expr = expr;
 		invalidate();
@@ -133,6 +145,27 @@ public class CurlView extends View implements INotifyer {
 	
 	public float getCY() {
 		return (float) cy;
+	}
+	
+	public String saveAs(String path, SAVE_AS_PIC_TYPE type) {
+		Bitmap map = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(map);
+		draw(canvas);
+		
+		String filePath = path + File.separator + "capture";
+		try {
+			switch (type) {
+			case PNG:
+				filePath += ".png";
+				map.compress(CompressFormat.PNG, 90, new FileOutputStream(filePath));
+				break;
+			default:
+				return null;
+			}
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+		return filePath;
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package com.calc.function;
 
+import java.io.File;
 import java.io.IOException;
 
 import com.calc.cview.CurlView;
@@ -11,11 +12,13 @@ import expression.Expression;
 import expression.item.OperatorFactory;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.hardware.input.InputManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -130,9 +133,36 @@ public class CalcActivity extends Activity {
 
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
-			Toast
-			.makeText(getBaseContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-			return false;
+			
+			String msg = "";
+			
+			if ( expr.equals("") ) {
+				Toast.makeText(getBaseContext(), "No data.", Toast.LENGTH_LONG).show();
+				return true;
+			}
+			
+			switch ( item.getItemId() ) {
+			case R.id.save_as:
+				File pic = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+				if ( pic.exists() ) {
+					String file = show.saveAs(pic.getPath(), CurlView.SAVE_AS_PIC_TYPE.PNG);
+					if ( null != file ) {
+						msg = "Save as " + file + " success.";
+					} else {
+						msg = "Sorry, save into " + pic + " failed.";
+					}
+				} else {
+					msg = pic.getPath()+" not exists.";
+				}
+				break;
+			default:break;
+			}
+			
+			if ( !msg.equals("") ) {
+				Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+			}
+			return true;
+			
 		}
 		
 	}

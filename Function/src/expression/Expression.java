@@ -51,6 +51,10 @@ public class Expression {
 		}
 	}
 	
+	public String getExp() {
+		return exp;
+	}
+
 	/**
 	 * 是否含偶数次根运算
 	 * @return

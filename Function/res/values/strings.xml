@@ -7,5 +7,6 @@
     <string name="ok">OK</string>
     <string name="fail_compile">Sorry, Compile Failed</string>
     <string name="save_as">Save as</string>
+    <string name="save_as_dialog_title">Save as ..</string>
 
 </resources>
