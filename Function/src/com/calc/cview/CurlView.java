@@ -99,11 +99,12 @@ public class CurlView extends View implements INotifyer {
 			return;
 		}
 		
-		paint.setColor(r.getColor(R.color.line));
+		paint.setColor(r.getColor(R.color.axes));
 		paint.setStrokeWidth(r.getDimension(R.dimen.line));
 		
 		canvas.drawLines(getXYAxes(), paint);
 		
+		paint.setColor(r.getColor(R.color.line));
 		updateDots();
 		for ( Pair<Float, Float> p : dots ) {
 			canvas.drawPoint(p.first, p.second, paint);

@@ -3,7 +3,7 @@
     <dimen name="line">2px</dimen>
     <dimen name="text">20px</dimen>
     
-    <dimen name="icon">30dp</dimen>
+    <dimen name="icon">20dp</dimen>
     <dimen name="margin">10dp</dimen>
     
     <dimen name="cx">10px</dimen>
