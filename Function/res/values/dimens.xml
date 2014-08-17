@@ -8,6 +8,8 @@
     
     <dimen name="cx">10px</dimen>
     <dimen name="cy">-10px</dimen>
+    <dimen name="unit">40px</dimen>
     
     <dimen name="title_height">50px</dimen>
+    <dimen name="control_height">40dp</dimen>
 </resources>

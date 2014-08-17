@@ -16,7 +16,7 @@ public class Factorial extends Operator {
 	public double value(Stack<Item> args) {
 		double n = args.pop().value(args);
 		double rs = 1;
-		for ( int i = 0; i < n; i++ ) {
+		for ( int i = 1; i <= n; i++ ) {
 			rs *= i;
 		}
 		return rs;

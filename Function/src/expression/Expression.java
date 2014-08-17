@@ -29,6 +29,7 @@ public class Expression {
 	
 	private boolean prepare() {
 		log.debug( "Prepare.." );
+		log.debug(exp);
 		inItems.clear();
 		
 		if ( Pattern.matches("["+pattern+"]+", exp) ) {
@@ -111,6 +112,7 @@ public class Expression {
 		
 		if ( !prepare() ) {
 			log.warn("Prepare fail.");
+			return false;
 		}
 		
 		Stack<Item> operators = new Stack<Item>();

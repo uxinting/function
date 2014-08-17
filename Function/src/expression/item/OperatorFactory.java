@@ -58,7 +58,7 @@ public class OperatorFactory {
 	
 	static public Operator getOperat( String operat ) {
 		
-		log.debug( "Operator : " + operat );
+		log.debug( "Operator Factory : " + operat );
 		
 		operat = operat.trim();
 		

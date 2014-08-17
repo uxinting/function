@@ -2,6 +2,7 @@ package com.calc.function;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import com.calc.cview.CurlView;
 import com.calc.cview.DirectionView;
@@ -9,8 +10,10 @@ import com.calc.cview.ExpressionView;
 import com.calc.inter.INotifyer;
 
 import expression.Expression;
+import expression.item.Operator;
 import expression.item.OperatorFactory;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -136,13 +139,13 @@ public class CalcActivity extends Activity {
 			
 			String msg = "";
 			
-			if ( expr.equals("") ) {
-				Toast.makeText(getBaseContext(), "No data.", Toast.LENGTH_LONG).show();
-				return true;
-			}
-			
 			switch ( item.getItemId() ) {
 			case R.id.save_as:
+				if ( expr == null ) {
+					Toast.makeText(getBaseContext(), "No data.", Toast.LENGTH_LONG).show();
+					return true;
+				}
+				
 				File pic = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 				if ( pic.exists() ) {
 					String file = show.saveAs(pic.getPath(), CurlView.SAVE_AS_PIC_TYPE.PNG);
@@ -154,6 +157,13 @@ public class CalcActivity extends Activity {
 				} else {
 					msg = pic.getPath()+" not exists.";
 				}
+				break;
+			case R.id.help:
+				Intent intent = new Intent();
+				intent.setClass(CalcActivity.this, HelpActivity.class);
+				startActivity(intent);
+				break;
+			case R.id.about:
 				break;
 			default:break;
 			}

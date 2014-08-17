@@ -7,19 +7,19 @@
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="18" />
-    
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
-        
+
         <!-- JUnit Test -->
-        <uses-library android:name="android.test.runner"/>
-        
+        <uses-library android:name="android.test.runner" />
+
         <activity
             android:name=".CalcActivity"
             android:label="@string/app_name" >
@@ -29,11 +29,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help"
+            android:theme="@style/HelpTheme" >
+        </activity>
     </application>
-    
-    <instrumentation 
+
+    <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="com.calc.function"
-        android:label="Fucntion Test"></instrumentation>
+        android:label="Fucntion Test"
+        android:targetPackage="com.calc.function" >
+    </instrumentation>
 
 </manifest>

@@ -63,6 +63,8 @@ public class CurlView extends View implements INotifyer {
 		monitor = CurlMonitor.instance();
 
 		paint = new Paint();
+		
+		unit = r.getDimension(R.dimen.unit);
 	}
 
 	public CurlView(Context context, AttributeSet attrs, int defStyle) {

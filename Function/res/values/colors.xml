@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="line">#ffcc99cc</color>
-    <color name="axes">#ff010101</color>
+    <color name="axes">#ff323232</color>
     <color name="dot">#f000</color>
-    <color name="text">#ff333333</color>
+    <color name="text">#ff323232</color>
     <color name="text_more">#ffff</color>
     
-    <color name="title">#ffcccccc</color>
+    <color name="title">#ff808080</color>
 </resources>
