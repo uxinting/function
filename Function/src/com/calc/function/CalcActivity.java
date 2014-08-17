@@ -94,6 +94,14 @@ public class CalcActivity extends Activity {
 		show.register(INotifyer.Event.ONDRAW, directer);
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		Bundle bundle = data.getExtras();
+		show.setCXY(bundle.getFloat("cx"), bundle.getFloat("cy"));
+	}
+
 	private class OnOKClick implements OnClickListener {
 
 		@Override
@@ -160,8 +168,15 @@ public class CalcActivity extends Activity {
 				break;
 			case R.id.help:
 				Intent intent = new Intent();
+				
+				//保存此时的cx,cy
+				Bundle bundle = new Bundle();
+				bundle.putFloat("cx", show.getCX());
+				bundle.putFloat("cy", show.getCY());
+
+				intent.putExtras(bundle);
 				intent.setClass(CalcActivity.this, HelpActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, 0);
 				break;
 			case R.id.about:
 				break;

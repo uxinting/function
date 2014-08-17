@@ -24,6 +24,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Pair;
@@ -226,22 +227,50 @@ public class CurlView extends View implements INotifyer {
 		} else {
 			dots.clear();
 		}
+
+		fillDots();
+		
+		if ( expr.hasEvenRoot() ) {
+			expr.toggleRootResult();
+			fillDots();
+		}
+	}
+	
+	/**
+	 * 根据函数，填充连续的点
+	 */
+	private void fillDots() {
 		float xmin = - getCX();
 		float xmax = getWidth() - getCX();
 		
 		for ( float i = xmin; i < xmax; i++ ) {
 			float y = (float) (double) (getCY()-expr.result(i/unit)*unit);
 			if ( y < 0 || y > getHeight() ) continue;
-			dots.add(new Pair<Float, Float>(getCX()+i, y));
-		}
-		
-		if ( expr.hasEvenRoot() ) {
-			expr.toggleRootResult();
-			for ( float i = xmin; i < xmax; i++ ) {
-				float y = (float) (double) (getCY()-expr.result(i/unit)*unit);
-				if ( y < 0 || y > getHeight() ) continue;
-				dots.add(new Pair<Float, Float>(getCX()+i, y));
+			
+			//为使所有的点连续，比较上一个点，如果不相邻，补充之间的点
+			if ( !dots.isEmpty() ) {
+				float lasty = dots.get(dots.size()-1).second;
+				if ( Math.abs(y - lasty) > 1 ) {
+					float midy = (float) (double) ( getCY()-expr.result((i+0.5)/unit)*unit );
+					if ( lasty <= midy && lasty - y < -1 ) {
+						for ( float j = lasty; j < midy; j++ ) {
+							dots.add(new Pair<Float, Float>(getCX()+i-1, j));
+						}
+						for ( float k = midy; k < y; k++ ) {
+							dots.add(new Pair<Float, Float>(getCX()+i, k));
+						}
+					}
+					if ( lasty >= midy && lasty - y > 1 ) {
+						for ( float j = lasty; j > midy; j-- ) {
+							dots.add(new Pair<Float, Float>(getCX()+i-1, j));
+						}
+						for ( float k = midy; k > y; k-- ) {
+							dots.add(new Pair<Float, Float>(getCX()+i, k));
+						}
+					}
+				}
 			}
+			dots.add(new Pair<Float, Float>(getCX()+i, y));
 		}
 	}
 
