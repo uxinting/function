@@ -110,7 +110,7 @@ public class CurlView extends View implements INotifyer {
 		paint.setColor(r.getColor(R.color.line));
 		updateDots();
 		for ( Pair<Float, Float> p : dots ) {
-			canvas.drawPoint(p.first, p.second, paint);
+			canvas.drawPoint( p.first, p.second, paint );
 		}
 		
 		if ( responsers.containsKey(INotifyer.Event.ONDRAW) )
@@ -234,6 +234,7 @@ public class CurlView extends View implements INotifyer {
 			expr.toggleRootResult();
 			fillDots();
 		}
+		
 	}
 	
 	/**
@@ -254,24 +255,28 @@ public class CurlView extends View implements INotifyer {
 					float midy = (float) (double) ( getCY()-expr.result((i+0.5)/unit)*unit );
 					if ( lasty <= midy && lasty - y < -1 ) {
 						for ( float j = lasty; j < midy; j++ ) {
-							dots.add(new Pair<Float, Float>(getCX()+i-1, j));
+							addDot( getCX()+i-1, j );
 						}
 						for ( float k = midy; k < y; k++ ) {
-							dots.add(new Pair<Float, Float>(getCX()+i, k));
+							addDot( getCX()+i, k );
 						}
 					}
 					if ( lasty >= midy && lasty - y > 1 ) {
 						for ( float j = lasty; j > midy; j-- ) {
-							dots.add(new Pair<Float, Float>(getCX()+i-1, j));
+							addDot( getCX()+i-1, j );
 						}
 						for ( float k = midy; k > y; k-- ) {
-							dots.add(new Pair<Float, Float>(getCX()+i, k));
+							addDot( getCX()+i, k );
 						}
 					}
 				}
 			}
-			dots.add(new Pair<Float, Float>(getCX()+i, y));
+			addDot( getCX()+i, y );
 		}
+	}
+	
+	private void addDot( Float x, Float y ) {
+		dots.add( new Pair<Float, Float>( x, y ) );
 	}
 
 }

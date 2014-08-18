@@ -31,7 +31,7 @@
     <operator name="e" description="自然数">expression.item.operator.E</operator>
     <operator name="π" description="圆周率">expression.item.operator.PI</operator>
     <operator name="x" description="变量x">expression.item.operator.X</operator>
-    <operator name="y" description="变量y">expression.item.operator.Y</operator>
+    <!-- <operator name="y" description="变量y">expression.item.operator.Y</operator> -->
     
     <operator name="(" description="左括号">expression.item.operator.LParent</operator>
     <operator name=")" description="右括号">expression.item.operator.RParent</operator>

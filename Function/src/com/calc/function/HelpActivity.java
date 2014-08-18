@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import expression.item.Operator;
 import expression.item.OperatorFactory;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +39,7 @@ public class HelpActivity extends Activity {
 		((ListView) findViewById(R.id.help_list)).setAdapter(new HelpOperatorsAdapter());
 	}
 	
+	@SuppressLint("ViewHolder")
 	private class HelpOperatorsAdapter extends BaseAdapter {
 		
 		private Operator[] operators = null;
@@ -68,17 +69,14 @@ public class HelpActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View v;
-			if ( convertView == null ) {
-				v  = inflater.inflate(R.layout.help_list_item, parent, false);
-				
-				TextView opview = (TextView) v.findViewById(R.id.item_operator);
-				TextView descview = (TextView) v.findViewById(R.id.item_desc);
-				
-				opview.setText(operators[position].getName());
-				descview.setText(operators[position].getDescription());
-			} else v = convertView;
-			return v;
+			convertView  = inflater.inflate(R.layout.help_list_item, parent, false);
+			
+			TextView opview = (TextView) convertView.findViewById(R.id.item_operator);
+			TextView descview = (TextView) convertView.findViewById(R.id.item_desc);
+			
+			opview.setText(operators[position].getName());
+			descview.setText(operators[position].getDescription());
+			return convertView;
 		}
 
 	}
