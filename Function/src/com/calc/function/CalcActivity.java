@@ -1,7 +1,9 @@
 package com.calc.function;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import com.calc.cview.CurlView;
@@ -16,6 +18,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -101,6 +105,30 @@ public class CalcActivity extends Activity {
 		Bundle bundle = data.getExtras();
 		show.setCXY(bundle.getFloat("cx"), bundle.getFloat("cy"));
 	}
+	
+	private void showAboutDialog() {
+		String about = "";
+		about += "程序名称：" + getResources().getString( R.string.app_name ) + "\n";
+		
+		try {
+			about += "版本：" + getPackageManager().getPackageInfo( getPackageName(), 0 ).versionName + "\n";
+			
+			BufferedReader br = new BufferedReader( new InputStreamReader( getAssets().open( "Readme.txt" ) ) );
+			String line;
+			while ( ( line = br.readLine() ) != null ) {
+				about += line + "\n";
+			}
+		} catch ( Exception e ) {
+			about += "版本：未知";
+		}
+		
+		new AlertDialog.Builder( this )
+		.setTitle( getResources().getString( R.string.about ) )
+		.setIcon( android.R.drawable.ic_dialog_info )
+		.setMessage( about )
+		.setNegativeButton( android.R.string.yes, null )
+		.show();
+	}
 
 	private class OnOKClick implements OnClickListener {
 
@@ -179,6 +207,7 @@ public class CalcActivity extends Activity {
 				startActivityForResult(intent, 0);
 				break;
 			case R.id.about:
+				showAboutDialog();
 				break;
 			default:break;
 			}
