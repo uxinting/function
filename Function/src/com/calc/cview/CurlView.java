@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Formatter.BigDecimalLayoutForm;
 
+import log.Log;
+
 import com.calc.function.CurlMonitor;
 import com.calc.function.R;
 import com.calc.function.CurlMonitor.Switch;
@@ -41,15 +43,20 @@ public class CurlView extends View implements INotifyer {
 	private double cx = 0.0;
 	private double cy = 0.0;
 	private float unit = 25;
-	private float unitTag = 2;
+	private float unitTag = 8;
 	
 	private float oldx = 0;
 	private float oldy = 0;
+	private float oldx2 = 0;
+	private float oldy2 = 0;
+	private boolean bScale = false;
 	
 	private Expression expr = null;
 	
 	private ArrayList<Pair<Float, Float>> dots = null;
 	private HashMap<Event, ArrayList<IResponser>> responsers = null;
+	
+	private Log log = null;
 	
 	public static enum SAVE_AS_PIC_TYPE { BMP, PNG };
 	
@@ -66,6 +73,8 @@ public class CurlView extends View implements INotifyer {
 		paint = new Paint();
 		
 		unit = r.getDimension(R.dimen.unit);
+		
+		log = Log.instance();
 	}
 
 	public CurlView(Context context, AttributeSet attrs, int defStyle) {
@@ -82,13 +91,36 @@ public class CurlView extends View implements INotifyer {
 			oldy = event.getY();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			setCXY((float)(event.getX()-oldx+cx), (float)(event.getY()-oldy+cy));
-			oldx = event.getX();
-			oldy = event.getY();
+			if ( !bScale ) {
+				setCXY((float)(event.getX()-oldx+cx), (float)(event.getY()-oldy+cy));
+				oldx = event.getX();
+				oldy = event.getY();
+			} else {
+				
+				float x0 = event.getX( 0 );
+				float y0 = event.getY( 0 );
+				float x1 = event.getX( 1 );
+				float y1 = event.getY( 1 );
+				double s = Math.sqrt( (y1-y0)*(y1-y0) + (x1-x0)*(x1-x0) );
+				double olds    = Math.sqrt( (oldy2-oldy)*(oldy2-oldy) + (oldx2-oldx)*(oldx2-oldx) );
+				
+				setUnit( (float) ( unit * ( s / olds ) ) );
+				
+				oldx = event.getX( 0 );
+				oldy = event.getY( 0 );
+				oldx2 = event.getX( 1 );
+				oldy2 = event.getY( 1 );
+			}
 			break;
 		case MotionEvent.ACTION_POINTER_DOWN:
+			oldx = event.getX( 0 );
+			oldy = event.getY( 0 );
+			oldx2 = event.getX( 1 );
+			oldy2 = event.getY( 1 );
+			bScale = true;
 			break;
 		case MotionEvent.ACTION_POINTER_UP:
+			bScale = false;
 			break;
 		}
 		return true;
@@ -151,6 +183,10 @@ public class CurlView extends View implements INotifyer {
 		return (float) cy;
 	}
 	
+	public void setUnit( float unit ) {
+		this.unit = unit;
+	}
+
 	public String saveAs(String path, SAVE_AS_PIC_TYPE type) {
 		Bitmap map = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(map);
