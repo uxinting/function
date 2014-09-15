@@ -154,9 +154,10 @@ public class CurlView extends View implements INotifyer {
 	public String saveAs(String path, SAVE_AS_PIC_TYPE type) {
 		Bitmap map = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(map);
+		canvas.drawColor( Color.WHITE );
 		draw(canvas);
 		
-		String filePath = path + File.separator + "capture";
+		String filePath = path + File.separator + "Capture";
 		try {
 			switch (type) {
 			case PNG:

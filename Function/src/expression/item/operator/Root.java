@@ -16,10 +16,17 @@ public class Root extends Operator {
 
 	@Override
 	public double value(Stack<Item> args) {
-		double b = args.pop().value(args);
-		double ex = args.pop().value(args);
-		double rs = Math.pow(b, (1.0/ex));
-		if ( ex % 2 == 0 && NP.NAGETIVE == result ) {
+		boolean nagBase = false;
+		
+		double base = args.pop().value(args);
+		double ex = args.empty() ? 2 : args.pop().value(args);
+		
+		if ( base < 0 && ex % 2 != 0 ) {
+			base = -base;
+			nagBase = true;
+		}
+		double rs = Math.pow(base, (1.0/ex));
+		if ( ex % 2 == 0 && NP.NAGETIVE == result || nagBase ) {
 			rs = -rs;
 		}
 		return rs;

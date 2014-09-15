@@ -61,12 +61,12 @@ public class Expression {
 	 * @return
 	 */
 	public boolean hasEvenRoot() {
-		Pattern pat = Pattern.compile("(\\d*\\.?\\d+)√|\\^(\\d*\\.?\\d+)");
+		Pattern pat = Pattern.compile("(\\d*\\.?\\d+)?√|\\^(\\d*\\.?\\d+)");
 		Matcher matcher = pat.matcher(exp);
 		while (matcher.find()) {
 			String s = matcher.group();
 			
-			if (s.charAt(s.length()-1) == '√' &&
+			if ( s.length() == 1 || s.charAt(s.length()-1) == '√' &&
 				Double.valueOf(s.substring(0, s.length()-1))%2 == 0)
 				return true;
 			
