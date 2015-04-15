@@ -18,9 +18,8 @@ public class TestCases extends AndroidTestCase {
 
 	@Test
 	public void test() {
-		Expression expr = new Expression("1+2");
-		expr.compile();
-		assert(expr.result() == 1.0);
+		Expression expr = new Expression("c");
+		assert( expr.compile() == false );
 	}
 	
 	@Test

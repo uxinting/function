@@ -7,4 +7,5 @@
     <color name="text_more">#ffff</color>
     
     <color name="title">#ff808080</color>
+    <color name="edit_stroke">#C0C0C0</color>
 </resources>

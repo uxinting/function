@@ -32,7 +32,7 @@ public class Expression {
 		log.debug(exp);
 		inItems.clear();
 		
-		if ( Pattern.matches("["+pattern+"]+", exp) ) {
+		if ( Pattern.matches("("+pattern+")+", exp) ) {
 			Pattern p = Pattern.compile(pattern);
 			Matcher matcher = p.matcher(exp);
 			while ( matcher.find() ) {

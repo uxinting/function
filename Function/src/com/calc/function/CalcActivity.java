@@ -26,6 +26,8 @@ import android.graphics.Canvas;
 import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +35,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,6 +50,7 @@ public class CalcActivity extends Activity {
 	private DirectionView directer = null;
 	private ExpressionView expression = null;
 	private ImageView more = null;
+	private Button ok = null;
 
 	public String getExpr() {
 		return expr;
@@ -78,9 +82,11 @@ public class CalcActivity extends Activity {
 		directer = (DirectionView) findViewById(R.id.direction);
 		expression = (ExpressionView) findViewById(R.id.expression);
 		more = (ImageView) findViewById(R.id.more);
-		
-		findViewById(R.id.ok).setOnClickListener(new OnOKClick());
+		ok = (Button) findViewById(R.id.ok);
+			
+		ok.setOnClickListener(new OnOKClick());
 		more.setOnClickListener(new OnMoreClick());
+		expression.addTextChangedListener( new ExpressionTextWatcher() );
 		
 		//初始化操作符工厂
 		try {
@@ -128,6 +134,34 @@ public class CalcActivity extends Activity {
 		.setMessage( about )
 		.setNegativeButton( android.R.string.yes, null )
 		.show();
+	}
+	
+	private class ExpressionTextWatcher implements TextWatcher {
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			Expression exp = new Expression( expression.getText().toString() );
+			if ( exp.compile() ) {
+				ok.setBackgroundResource( R.drawable.ok_green );
+			} else {
+				ok.setBackgroundResource( R.drawable.ok_red );
+			}
+		}
+		
 	}
 
 	private class OnOKClick implements OnClickListener {
