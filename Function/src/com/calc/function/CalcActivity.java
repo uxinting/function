@@ -24,6 +24,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.hardware.input.InputManager;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -31,8 +33,10 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -51,6 +55,8 @@ public class CalcActivity extends Activity {
 	private ExpressionView expression = null;
 	private ImageView more = null;
 	private Button ok = null;
+	
+	private MathKeyboard mkeyboard;
 
 	public String getExpr() {
 		return expr;
@@ -87,6 +93,11 @@ public class CalcActivity extends Activity {
 		ok.setOnClickListener(new OnOKClick());
 		more.setOnClickListener(new OnMoreClick());
 		expression.addTextChangedListener( new ExpressionTextWatcher() );
+		expression.setOnClickListener( new ExpressionClickListener() );
+		expression.setOnTouchListener( new ExpressionTouchListener() );
+		
+		//初始化键盘
+		mkeyboard = new MathKeyboard((KeyboardView) findViewById(R.id.keyboard_view), this, expression);
 		
 		//初始化操作符工厂
 		try {
@@ -163,11 +174,31 @@ public class CalcActivity extends Activity {
 		}
 		
 	}
+	
+	private class ExpressionClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			mkeyboard.show();
+		}
+		
+	}
+	
+	private class ExpressionTouchListener implements OnTouchListener {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			mkeyboard.show();
+			return true;
+		}
+		
+	}
 
 	private class OnOKClick implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
+			mkeyboard.hide();
 			setExpr(expression.getText().toString());
 			
 			InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -24,9 +24,10 @@
     
     <LinearLayout
         android:id="@+id/control"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/keyboard_view"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/control_height"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:layout_margin="2dp">
             
@@ -46,5 +47,16 @@
 	            android:layout_marginLeft="5dp"/>
 	        
     </LinearLayout>
-
+    
+    <android.inputmethodservice.KeyboardView 
+        android:id="@+id/keyboard_view"  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"  
+        android:focusable="true"  
+        android:focusableInTouchMode="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/edit_height"
+        android:keyPreviewLayout="@layout/key_preview"
+        android:visibility="gone" />
+        
 </RelativeLayout>
