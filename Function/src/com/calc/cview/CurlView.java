@@ -104,6 +104,9 @@ public class CurlView extends View implements INotifyer {
 				double s = Math.sqrt( (y1-y0)*(y1-y0) + (x1-x0)*(x1-x0) );
 				double olds    = Math.sqrt( (oldy2-oldy)*(oldy2-oldy) + (oldx2-oldx)*(oldx2-oldx) );
 				
+				if ( s / olds > 2 ) {
+					s = olds * 2.0;
+				}
 				setUnit( (float) ( unit * ( s / olds ) ) );
 				
 				oldx = event.getX( 0 );

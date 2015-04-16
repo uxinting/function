@@ -45,17 +45,17 @@
                         android:keyIcon="@android:drawable/ic_input_delete" />  
         </Row>  
         <Row android:keyHeight="25dip">  
-                <Key android:keyWidth="20.000004%p" android:codes="57422" 
+                <Key android:keyWidth="20%p" android:codes="57422" 
                         android:keyLabel="123" />  
-                <Key android:keyWidth="14.999998%p" android:codes="40"  android:keyHeight="50dip" 
+                <Key android:keyWidth="15%p" android:codes="40"  android:keyHeight="50dip" 
                         android:keyLabel="(" />
-                <Key android:keyWidth="14.999998%p" android:codes="41" android:keyHeight="50dip"
+                <Key android:keyWidth="15%p" android:codes="41" android:keyHeight="50dip"
                         android:keyLabel=")" />
                 <Key android:keyWidth="15%p" android:codes="57419" android:keyHeight="50dip" 
                         android:keyIcon="@drawable/arrow_left" />
                 <Key android:keyWidth="15%p" android:codes="57421" android:keyHeight="50dip" 
                         android:keyIcon="@drawable/arrow_right" /> 
-                <Key android:keyWidth="20.000004%p" android:codes="-3"  android:keyHeight="50dip" 
+                <Key android:keyWidth="20%p" android:codes="-3"  android:keyHeight="50dip" 
                         android:keyEdgeFlags="right" android:keyLabel="Done" />  
         </Row>
         <Row android:keyHeight="25dip" android:rowEdgeFlags="bottom" >

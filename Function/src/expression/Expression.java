@@ -115,6 +115,7 @@ public class Expression {
 			return false;
 		}
 		
+		try {
 		Stack<Item> operators = new Stack<Item>();
 		for ( Item item : inItems ) {
 			if ( null == item ) break;
@@ -150,6 +151,9 @@ public class Expression {
 		}
 		while ( !operators.empty() ) {
 			postItems.add( operators.pop() );
+		}
+		} catch ( Exception e ) {
+			return false;
 		}
 		
 		bCompiled = true;
