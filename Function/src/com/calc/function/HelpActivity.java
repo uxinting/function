@@ -69,7 +69,8 @@ public class HelpActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			convertView  = inflater.inflate(R.layout.help_list_item, parent, false);
+			if ( convertView == null )
+				convertView  = inflater.inflate(R.layout.help_list_item, parent, false);
 			
 			TextView opview = (TextView) convertView.findViewById(R.id.item_operator);
 			TextView descview = (TextView) convertView.findViewById(R.id.item_desc);

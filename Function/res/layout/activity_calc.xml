@@ -22,12 +22,32 @@
 		android:clickable="true"
 		android:src="@drawable/direction"/>
     
+    <ListView 
+        android:id="@+id/history_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:divider="@android:color/white"
+        android:layout_margin="2dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/history"
+        android:layout_above="@+id/control">
+        
+    </ListView>
+    
     <ImageView 
-        android:id="@+id/"/>
+        android:id="@+id/history"
+        android:layout_width="@dimen/icon"
+        android:layout_height="@dimen/icon"
+        android:src="@drawable/history"
+        android:clickable="true"
+        android:layout_margin="@dimen/margin"
+        android:layout_above="@+id/control"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/app_name"/>
     
     <LinearLayout
         android:id="@+id/control"
-        android:layout_above="@+id/keyboard_view"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/control_height"
         android:layout_alignParentBottom="true"

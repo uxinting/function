@@ -39,10 +39,13 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Toast;
@@ -55,6 +58,10 @@ public class CalcActivity extends Activity {
 	private ExpressionView expression = null;
 	private ImageView more = null;
 	private Button ok = null;
+	private ImageView history;
+	private ListView historyList;
+	
+	private CurlMonitor monitor;
 	
 	private MathKeyboard mkeyboard;
 
@@ -89,12 +96,18 @@ public class CalcActivity extends Activity {
 		expression = (ExpressionView) findViewById(R.id.expression);
 		more = (ImageView) findViewById(R.id.more);
 		ok = (Button) findViewById(R.id.ok);
+		history = (ImageView) findViewById( R.id.history );
+		historyList = (ListView) findViewById( R.id.history_list );
+		
+		monitor = CurlMonitor.instance();
 			
 		ok.setOnClickListener(new OnOKClick());
 		more.setOnClickListener(new OnMoreClick());
 		expression.addTextChangedListener( new ExpressionTextWatcher() );
 		expression.setOnClickListener( new ExpressionClickListener() );
 		expression.setOnTouchListener( new ExpressionTouchListener() );
+		history.setOnClickListener( new HistoryOnClickListener() );
+		historyList.setOnItemClickListener( new HistoryItemOnClickListener() );
 		
 		//初始化键盘
 		mkeyboard = new MathKeyboard((KeyboardView) findViewById(R.id.keyboard_view), this, expression);
@@ -193,6 +206,34 @@ public class CalcActivity extends Activity {
 		}
 		
 	}
+	
+	private class HistoryOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			monitor.showHistoryInList( getApplicationContext(), historyList );
+			
+			int vis = historyList.getVisibility();
+			historyList.setVisibility( vis == View.INVISIBLE || vis == View.GONE ? View.VISIBLE : View.INVISIBLE );
+		}
+		
+	}
+	
+	/**
+	 * 点击历史记录时，将历史写入输入框
+	 * @author xinting
+	 *
+	 */
+	private class HistoryItemOnClickListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			String expr = monitor.getHistory( position );
+			expression.setText( expr );
+		}
+		
+	}
 
 	private class OnOKClick implements OnClickListener {
 
@@ -205,9 +246,10 @@ public class CalcActivity extends Activity {
 			im.hideSoftInputFromWindow(v.getWindowToken(), 0);
 			
 			Expression exp = new Expression(getExpr());
-			if ( exp.compile() )
+			if ( exp.compile() ) {
 				show.setExpr(exp);
-			else {
+				monitor.appendHistory(expr);
+			} else {
 				Toast.makeText(getBaseContext(), R.string.fail_compile, Toast.LENGTH_SHORT).show();
 			}			
 		}
