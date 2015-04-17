@@ -26,6 +26,7 @@ public class MathKeyboard {
 		public static final int MODE_QWERT = 57423;
 		public static final int MODE_MATH = 57424;
 		public static final int CODE_EXP = 57425;
+		public static final int CODE_NULL = 57426;
 	}
 	
 	public static enum KEYBOARD_MODE {
@@ -118,6 +119,8 @@ public class MathKeyboard {
             	break;
             case CODE.CODE_EXP: //自然对数的幂
             	editable.insert(start, "exp");
+            	break;
+            case CODE.CODE_NULL: //什么也不做
             	break;
             default:
             	editable.insert(start, Character.toString((char)primaryCode));  

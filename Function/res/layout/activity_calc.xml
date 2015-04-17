@@ -53,7 +53,7 @@
         android:layout_height="@dimen/control_height"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_margin="2dp">
+        android:layout_margin="@dimen/edit_margin">
             
             <com.calc.cview.ExpressionView
 		        android:id="@+id/expression"
@@ -67,7 +67,7 @@
 	            android:id="@+id/ok"
 	            android:layout_width="@dimen/edit_height"
 	            android:layout_height="@dimen/edit_height"
-	            android:background="@drawable/ok_red"
+	            android:background="@drawable/ok_red_btn"
 	            android:layout_marginLeft="5dp"/>
 	        
     </LinearLayout>
@@ -79,7 +79,7 @@
         android:focusable="true"  
         android:focusableInTouchMode="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/edit_height"
+        android:layout_marginBottom="@dimen/key_margin_bottom"
         android:keyPreviewLayout="@layout/key_preview"
         android:visibility="gone" />
         

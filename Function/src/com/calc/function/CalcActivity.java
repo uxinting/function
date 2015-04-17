@@ -182,9 +182,9 @@ public class CalcActivity extends Activity {
 		public void afterTextChanged(Editable s) {
 			Expression exp = new Expression( expression.getText().toString() );
 			if ( exp.compile() ) {
-				ok.setBackgroundResource( R.drawable.ok_green );
+				ok.setBackgroundResource( R.drawable.ok_green_btn );
 			} else {
-				ok.setBackgroundResource( R.drawable.ok_red );
+				ok.setBackgroundResource( R.drawable.ok_red_btn );
 			}
 		}
 		
@@ -216,7 +216,14 @@ public class CalcActivity extends Activity {
 			monitor.getHistoryAdapter().notifyDataSetChanged();
 			
 			int vis = historyList.getVisibility();
-			historyList.setVisibility( vis == View.INVISIBLE || vis == View.GONE ? View.VISIBLE : View.INVISIBLE );
+			if ( vis == View.INVISIBLE || vis == View.GONE ) {
+				historyList.setVisibility( View.VISIBLE );
+				history.setImageResource( R.drawable.history_on );
+			} else {
+				historyList.setVisibility( View.GONE );
+				history.setImageResource( R.drawable.history );
+			}
+			
 		}
 		
 	}
@@ -233,6 +240,8 @@ public class CalcActivity extends Activity {
 				long id) {
 			String expr = monitor.getHistory( position );
 			expression.setText( expr );
+			
+			expression.setSelection( expr.length() );
 		}
 		
 	}

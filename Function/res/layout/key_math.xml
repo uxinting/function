@@ -12,14 +12,14 @@
         <Key android:codes="57419" android:keyIcon="@drawable/arrow_left" />
     </Row>
     <Row>
-        <Key android:codes="94" android:keyLabel="^" />
+        <Key android:codes="94" android:keyIcon="@drawable/xy" />
         <Key android:codes="8730" android:keyLabel="√" />
         <Key android:codes="126" android:keyLabel="~" />
         <Key android:codes="176" android:keyLabel="°" />
         <Key android:codes="57421" android:keyIcon="@drawable/arrow_right" />
     </Row>
     <Row>
-        <Key android:codes="57425" android:keyLabel="exp" />
+        <Key android:codes="57426" android:keyLabel="" />
         <Key android:codes="8226" android:keyLabel="•" />
         <Key android:codes="47" android:keyLabel="/" />
         <Key android:codes="101" android:keyLabel="e" />

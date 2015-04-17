@@ -3,7 +3,7 @@ package log;
 public class Log {
 	
 	private static Log log = null;
-	private int  level   = LEVEL.DEBUG;
+	private int  level   = LEVEL.FATAL;
 	
 	private Log() {
 		

@@ -30,11 +30,11 @@
                         android:keyLabel="l" />  
         </Row>  
         <Row>  
-                <Key android:keyWidth="14.999998%p" android:codes="-1"  
+                <Key android:keyWidth="14.999998%p" android:codes="57426"
                         android:keyEdgeFlags="left" android:isModifier="true"  
                         android:isSticky="true" android:keyLabel="" />
                 <Key android:codes="122" android:keyLabel="z" />  
-                <Key android:codes="120" android:keyLabel="x" />  
+                <Key android:codes="120" android:keyIcon="@drawable/x" />  
                 <Key android:codes="99" android:keyLabel="c" />  
                 <Key android:codes="118" android:keyLabel="v" />  
                 <Key android:codes="98" android:keyLabel="b" />  
