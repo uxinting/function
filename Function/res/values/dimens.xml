@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="line">5px</dimen>
-    <dimen name="text">30px</dimen>
+    <dimen name="line">3dp</dimen>
+    <dimen name="text">30dp</dimen>
     
     <dimen name="icon">30dp</dimen>
     <dimen name="margin">10dp</dimen>
     
     <dimen name="cx">10px</dimen>
-    <dimen name="cy">-10px</dimen>
+    <dimen name="cy">-50px</dimen>
     <dimen name="unit">40px</dimen>
     
     <dimen name="title_height">40dp</dimen>

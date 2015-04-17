@@ -157,11 +157,17 @@ public class CurlView extends View implements INotifyer {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		
-		int w = MeasureSpec.getSize(widthMeasureSpec);
-		int h = MeasureSpec.getSize(heightMeasureSpec);
+		if ( !monitor.isOriginInit() ) {
+			int w = MeasureSpec.getSize(widthMeasureSpec);
+			int h = MeasureSpec.getSize(heightMeasureSpec);
+			
+			cx = (w+r.getDimension(R.dimen.cx))%w;
+			cy = (h+r.getDimension(R.dimen.cy))%h;
+			
+			monitor.initOrigin();
+		}
 		
-		cx = (w+r.getDimension(R.dimen.cx))%w;
-		cy = (h+r.getDimension(R.dimen.cy))%h;
+		log.debug( "CurlView Measure" );
 		
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}

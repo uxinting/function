@@ -100,6 +100,7 @@ public class CalcActivity extends Activity {
 		historyList = (ListView) findViewById( R.id.history_list );
 		
 		monitor = CurlMonitor.instance();
+		monitor.initialize( this );
 			
 		ok.setOnClickListener(new OnOKClick());
 		more.setOnClickListener(new OnMoreClick());
@@ -108,6 +109,7 @@ public class CalcActivity extends Activity {
 		expression.setOnTouchListener( new ExpressionTouchListener() );
 		history.setOnClickListener( new HistoryOnClickListener() );
 		historyList.setOnItemClickListener( new HistoryItemOnClickListener() );
+		historyList.setAdapter( monitor.getHistoryAdapter() );
 		
 		//初始化键盘
 		mkeyboard = new MathKeyboard((KeyboardView) findViewById(R.id.keyboard_view), this, expression);
@@ -211,7 +213,7 @@ public class CalcActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			monitor.showHistoryInList( getApplicationContext(), historyList );
+			monitor.getHistoryAdapter().notifyDataSetChanged();
 			
 			int vis = historyList.getVisibility();
 			historyList.setVisibility( vis == View.INVISIBLE || vis == View.GONE ? View.VISIBLE : View.INVISIBLE );

@@ -1,9 +1,11 @@
 package com.calc.function;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import log.Log;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
@@ -19,11 +21,16 @@ public class CurlMonitor {
 	static private CurlMonitor monitor = null;
 
 	private Switch moveable = Switch.ON;
+	private Context context;
 	
+	//是否原点被初始化
+	private boolean bOriginInit = false;
+	
+	private Log log;
 	/**
 	 * 保存所有成功编译并绘制的函数
 	 */
-	private ArrayList<String> history;
+	private HashSet<String> history;
 	private LayoutInflater inflater;
 	private HistoryListAdapter adapter;
 	
@@ -32,28 +39,41 @@ public class CurlMonitor {
 	private CurlMonitor() {
 		setMoveable(Switch.ON);
 		
-		history = new ArrayList<String>();
-		adapter = new HistoryListAdapter();
+		history = new HashSet<String>();
+		log = Log.instance();
 	}
 	
 	static public CurlMonitor instance() {
 		if ( monitor == null ) monitor = new CurlMonitor();
 		return monitor;
 	}
+	
+	public void initialize( Context context ) {
+		this.context = context;
+		
+		if ( inflater == null ) {
+			inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+		}
+	}
+	
+	public boolean isOriginInit() {
+		return bOriginInit;
+	}
+	
+	public void initOrigin() {
+		bOriginInit = true;
+	}
 
 	public void appendHistory( String expr ) {
 		history.add( expr );
+		log.debug( "CurlMonitor add history ", expr );
 	}
 	
-	public void showHistoryInList( Context context, ListView view ) {
-		if ( null == inflater ) {
-			inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+	public HistoryListAdapter getHistoryAdapter() {
+		if ( adapter == null ) {
+			adapter = new HistoryListAdapter();
 		}
-		
-		if ( null == view.getAdapter() )
-			view.setAdapter( adapter );
-		
-		adapter.notifyDataSetChanged();
+		return adapter;
 	}
 	
 	/**
@@ -62,10 +82,16 @@ public class CurlMonitor {
 	 * @return 第pos个历史记录
 	 */
 	public String getHistory( int pos ) {
-		return history.get( pos );
+		String rs = null;
+		for ( String hist : history ) {
+			rs = hist;
+			if ( pos-- <= 0 ) break;
+		}
+		log.debug( "CurlMonitor: position ", Integer.toString( pos ), "expr ", rs );
+		return rs;
 	}
 	
-	private class HistoryListAdapter extends BaseAdapter {
+	class HistoryListAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
@@ -89,7 +115,7 @@ public class CurlMonitor {
 			}
 			
 			TextView historyItem = (TextView) convertView.findViewById( R.id.history_item_content );
-			historyItem.setText( history.get(position) );
+			historyItem.setText( getHistory( position ) );
 			return convertView;
 		}
 
